@@ -8,6 +8,7 @@ import static Controlador.Ctrl_Cita.buscarPaciente;
 import static Controlador.Ctrl_Sucursal.buscarSucursal;
 import static Controlador.Ctrl_Sucursal.getListaSucursales;
 import Modelo.Sucursal;
+import Vista.I_Error_Generico;
 import java.util.List;
 
 /**
@@ -55,7 +56,7 @@ public class I_Buscar_Paciente extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        jTextCi = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
 
@@ -90,12 +91,12 @@ public class I_Buscar_Paciente extends javax.swing.JFrame {
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("C.I del Paciente:");
 
-        jTextField1.setBackground(new java.awt.Color(153, 153, 153));
-        jTextField1.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        jTextField1.setForeground(new java.awt.Color(255, 255, 255));
-        jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
+        jTextCi.setBackground(new java.awt.Color(153, 153, 153));
+        jTextCi.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        jTextCi.setForeground(new java.awt.Color(255, 255, 255));
+        jTextCi.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                jTextField1KeyTyped(evt);
+                jTextCiKeyTyped(evt);
             }
         });
 
@@ -138,7 +139,7 @@ public class I_Buscar_Paciente extends javax.swing.JFrame {
                         .addGap(269, 269, 269)
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jTextCi, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(256, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -149,7 +150,7 @@ public class I_Buscar_Paciente extends javax.swing.JFrame {
                 .addGap(34, 34, 34)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextCi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 306, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
@@ -180,7 +181,7 @@ public class I_Buscar_Paciente extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // Boton a I_Introducir_Fecha
-        String CI = jTextField1.getText();
+        String CI = jTextCi.getText();
         List<Sucursal> sucursales = getListaSucursales();
         int index = buscarSucursal(Sucursal, sucursales);
         
@@ -193,18 +194,18 @@ public class I_Buscar_Paciente extends javax.swing.JFrame {
             this.setVisible(false);
         }else
         {
-           I_Error Interfaz = I_Error.GetInstance();
+            I_Error_Generico Interfaz = I_Error_Generico.GetInstance();
            Interfaz.setVisible(true);
            this.setVisible(false);
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void jTextField1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyTyped
+    private void jTextCiKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextCiKeyTyped
         // Que no pueda escribir letras
         char c = evt.getKeyChar();
         
         if (c < '0' || c > '9') evt.consume();
-    }//GEN-LAST:event_jTextField1KeyTyped
+    }//GEN-LAST:event_jTextCiKeyTyped
 
     /**
      * @param args the command line arguments
@@ -248,6 +249,6 @@ public class I_Buscar_Paciente extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextCi;
     // End of variables declaration//GEN-END:variables
 }

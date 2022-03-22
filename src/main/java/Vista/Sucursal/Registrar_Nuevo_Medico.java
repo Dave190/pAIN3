@@ -1,5 +1,6 @@
 package Vista.Sucursal;
 
+import Vista.I_Error_Generico;
 import static Controlador.Ctrl_HistoriaMedica.buscarMedico;
 import static Controlador.Ctrl_Sucursal.RegistrarMedico;
 import static Controlador.Ctrl_Sucursal.buscarSucursal;
@@ -8,7 +9,7 @@ import static Controlador.Ctrl_Sucursal.getListaSucursales;
 import static Controlador.Ctrl_Sucursal.saveListaSucursales;
 import Modelo.Medico;
 import Modelo.Sucursal;
-import Vista.Cita.Modificar_Cita.I_Exito;
+import Vista.I_Exito;
 import java.util.ArrayList;
 import java.util.List;
 

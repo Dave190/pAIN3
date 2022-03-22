@@ -1,11 +1,12 @@
 package Vista.Sucursal;
 
+import Vista.I_Error_Generico;
 import Modelo.Sucursal;
-import Vista.Cita.Modificar_Cita.I_Exito;
 import static Controlador.Ctrl_Sucursal.AñadirSucursal;
 import static Controlador.Ctrl_Sucursal.buscarSucursal;
 import static Controlador.Ctrl_Sucursal.getListaSucursales;
 import static Controlador.Ctrl_Sucursal.saveListaSucursales;
+import Vista.I_Exito;
 import java.util.ArrayList;
 
 import java.util.List;

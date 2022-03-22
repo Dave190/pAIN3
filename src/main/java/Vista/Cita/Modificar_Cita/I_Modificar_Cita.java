@@ -1,15 +1,12 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package Vista.Cita.Modificar_Cita;
 
+import static Controlador.Ctrl_Cita.buscarCita;
 import static Controlador.Ctrl_Cita.buscarPaciente;
 import static Controlador.Ctrl_Sucursal.buscarSucursal;
 import static Controlador.Ctrl_Sucursal.getListaSucursales;
 import Modelo.Sucursal;
-import Vista.Cita.Agendar_Cita.I_Error;
 import Vista.Cita.I_Cita;
+import Vista.I_Error_Generico;
 import java.util.List;
 
 
@@ -51,8 +48,10 @@ public class I_Modificar_Cita extends javax.swing.JFrame {
         jLabel12 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
-        jTextField6 = new javax.swing.JTextField();
+        TextID = new javax.swing.JTextField();
         jButton4 = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        TextCi = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -73,12 +72,12 @@ public class I_Modificar_Cita extends javax.swing.JFrame {
             }
         });
 
-        jTextField6.setBackground(new java.awt.Color(153, 153, 153));
-        jTextField6.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        jTextField6.setForeground(new java.awt.Color(255, 255, 255));
-        jTextField6.addKeyListener(new java.awt.event.KeyAdapter() {
+        TextID.setBackground(new java.awt.Color(153, 153, 153));
+        TextID.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        TextID.setForeground(new java.awt.Color(255, 255, 255));
+        TextID.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                jTextField6KeyTyped(evt);
+                TextIDKeyTyped(evt);
             }
         });
 
@@ -92,24 +91,43 @@ public class I_Modificar_Cita extends javax.swing.JFrame {
             }
         });
 
+        jLabel2.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        jLabel2.setText("CI del Paciente: ");
+
+        TextCi.setBackground(new java.awt.Color(153, 153, 153));
+        TextCi.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        TextCi.setForeground(new java.awt.Color(255, 255, 255));
+        TextCi.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                TextCiKeyTyped(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(25, 25, 25)
+                        .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 355, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(TextID, javax.swing.GroupLayout.PREFERRED_SIZE, 355, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(20, 20, 20)
+                                .addComponent(jLabel12))))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addComponent(jLabel12)))
-                .addContainerGap(22, Short.MAX_VALUE))
+                        .addGap(13, 13, 13)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(TextCi, javax.swing.GroupLayout.PREFERRED_SIZE, 355, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -119,8 +137,12 @@ public class I_Modificar_Cita extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 136, Short.MAX_VALUE)
+                    .addComponent(TextID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(TextCi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 89, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -131,11 +153,14 @@ public class I_Modificar_Cita extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        String CI = jTextField6.getText();
+        String id = TextID.getText();
+        String ci = TextCi.getText();
+        
         List<Sucursal> sucursales = getListaSucursales();
         int index = buscarSucursal(Sucursal, sucursales);
+        int indexP = buscarPaciente(ci, sucursales.get(index).getPacientes());
         
-        if (buscarPaciente(CI, sucursales.get(index).getPacientes()) != -1) 
+        if (indexP != -1 && buscarCita(id, sucursales.get(index).getPacientes().get(indexP).getCitas()) != -1) 
         {
             I_Introducir_Fecha a = I_Introducir_Fecha.GetInstance();
             a.setSucursal(Sucursal);
@@ -143,7 +168,7 @@ public class I_Modificar_Cita extends javax.swing.JFrame {
             this.setVisible(false);
         }else
         {
-            I_Error Interfaz = I_Error.GetInstance();
+            I_Error_Generico Interfaz = I_Error_Generico.GetInstance();
             Interfaz.setVisible(true);
             this.setVisible(false);
         }
@@ -158,12 +183,16 @@ public class I_Modificar_Cita extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_jButton4ActionPerformed
 
-    private void jTextField6KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField6KeyTyped
+    private void TextIDKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TextIDKeyTyped
         // Que no se pueda escribir letras
         char c = evt.getKeyChar();
         
         if (c < '0' || c > '9') evt.consume();
-    }//GEN-LAST:event_jTextField6KeyTyped
+    }//GEN-LAST:event_TextIDKeyTyped
+
+    private void TextCiKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TextCiKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TextCiKeyTyped
 
     /**
      * @param args the command line arguments
@@ -201,10 +230,12 @@ public class I_Modificar_Cita extends javax.swing.JFrame {
 //    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField TextCi;
+    private javax.swing.JTextField TextID;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JTextField jTextField6;
+    private javax.swing.JLabel jLabel2;
     // End of variables declaration//GEN-END:variables
 }

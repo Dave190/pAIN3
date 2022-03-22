@@ -1,7 +1,16 @@
 package Vista.Cita.Agendar_Cita;
 
-import Controlador.Ctrl_Cita;
+import Vista.I_Exito;
 import static Controlador.Ctrl_Cita.RegistrarPaciente;
+import static Controlador.Ctrl_Cita.buscarPaciente;
+import static Controlador.Ctrl_Sucursal.buscarSucursal;
+import static Controlador.Ctrl_Sucursal.getListaSucursales;
+import static Controlador.Ctrl_Sucursal.saveListaSucursales;
+import Modelo.Paciente;
+import Modelo.Sucursal;
+import Vista.I_Error_Generico;
+import java.util.ArrayList;
+import java.util.List;
 
 public class I_Registrar_Datos_Paciente extends javax.swing.JFrame {
 
@@ -48,7 +57,7 @@ public class I_Registrar_Datos_Paciente extends javax.swing.JFrame {
         TextNombre = new javax.swing.JTextField();
         TextApellido = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        TextCI = new javax.swing.JTextField();
+        TextCi = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         TextSexo = new javax.swing.JTextField();
@@ -133,17 +142,17 @@ public class I_Registrar_Datos_Paciente extends javax.swing.JFrame {
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Apellidos:");
 
-        TextCI.setBackground(new java.awt.Color(153, 153, 153));
-        TextCI.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        TextCI.setForeground(new java.awt.Color(255, 255, 255));
-        TextCI.addActionListener(new java.awt.event.ActionListener() {
+        TextCi.setBackground(new java.awt.Color(153, 153, 153));
+        TextCi.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        TextCi.setForeground(new java.awt.Color(255, 255, 255));
+        TextCi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                TextCIActionPerformed(evt);
+                TextCiActionPerformed(evt);
             }
         });
-        TextCI.addKeyListener(new java.awt.event.KeyAdapter() {
+        TextCi.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                TextCIKeyTyped(evt);
+                TextCiKeyTyped(evt);
             }
         });
 
@@ -330,7 +339,7 @@ public class I_Registrar_Datos_Paciente extends javax.swing.JFrame {
                             .addComponent(TextLugarNacimiento, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(TextFechaNacimiento, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(TextSexo, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(TextCI, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(TextCi, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(TextNombre))
                         .addGap(25, 25, 25))))
         );
@@ -350,7 +359,7 @@ public class I_Registrar_Datos_Paciente extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(TextCI, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(TextCi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
@@ -409,30 +418,43 @@ public class I_Registrar_Datos_Paciente extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // Boton a I_Agendar_Cita
-        
-             String nombre = TextNombre.getText();
-            String apellido = TextApellido.getText();
-            String CI = TextCI.getText();
-            String sexo = TextSexo.getText();
-            String fechaNacimiento = TextFechaNacimiento.getText();
-            String lugarNacimiento = TextLugarNacimiento.getText();
-            String estadoCivil = TextEstadoCivil.getText();
-            String direccionHabitacion = TextDireccion.getText();
-            String telefono = TextTelefono.getText();
-            String telefonoPersonaRe = TextTelefonoPersonaRe.getText();
-            String profesion = TextProfesion.getText();
-            String ocupacion = TextOcupacion.getText();
-            
-        if (RegistrarPaciente(nombre,apellido, CI, sexo, fechaNacimiento,lugarNacimiento, estadoCivil, direccionHabitacion, telefono, profesion,ocupacion, telefonoPersonaRe, Sucursal)) // condicion de validacion
-        {   
-            I_Exito Interfaz = I_Exito.GetInstance();
-            Interfaz.setVisible(true);
-            this.setVisible(false);
-        }else
-        {
-            I_Error Interfaz = I_Error.GetInstance();
-            Interfaz.setVisible(true);
+        String nombre = TextNombre.getText();
+        String apellido = TextApellido.getText();
+        String ci = TextCi.getText();
+        String sexo = TextSexo.getText();
+        String fechaN = TextFechaNacimiento.getText();
+        String lugarN = TextLugarNacimiento.getText();
+        String estadocivil = TextEstadoCivil.getText();
+        String direccion = TextDireccion.getText();
+        String telefono = TextTelefono.getText();
+        String telefonorela = TextTelefonoPersonaRe.getText();
+        String profesion = TextProfesion.getText();
+        String ocupacion = TextOcupacion.getText();        
+                
+        List<Sucursal> sucursales = getListaSucursales();
+
+        int index = buscarSucursal(Sucursal, sucursales);
+
+        if (sucursales.get(index).getPacientes() != null) {
+            if (buscarPaciente(ci, sucursales.get(index).getPacientes()) == -1) {
+                RegistrarPaciente(nombre, apellido, ci, sexo, fechaN, lugarN, estadocivil, direccion, telefono, telefonorela, profesion, ocupacion, sucursales.get(index).getPacientes());
+                saveListaSucursales(sucursales);
+                I_Exito a = I_Exito.GetInstance();
+                a.setVisible(true);
+                this.setVisible(false);
+
+            } else {
+                I_Error_Generico Interfaz = I_Error_Generico.GetInstance();
+                Interfaz.setVisible(true);
+                this.setVisible(false);
+            }
+        } else {
+            List<Paciente> pacientes = new ArrayList<>();
+            RegistrarPaciente(nombre, apellido, ci, sexo, fechaN, lugarN, estadocivil, direccion, telefono, telefonorela, profesion, ocupacion, pacientes);
+            sucursales.get(index).setPacientes(pacientes);
+            saveListaSucursales(sucursales);
+            I_Exito a = I_Exito.GetInstance();
+            a.setVisible(true);
             this.setVisible(false);
         }
         
@@ -507,16 +529,16 @@ public class I_Registrar_Datos_Paciente extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_TextOcupacionKeyTyped
 
-    private void TextCIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TextCIActionPerformed
+    private void TextCiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TextCiActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_TextCIActionPerformed
+    }//GEN-LAST:event_TextCiActionPerformed
 
-    private void TextCIKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TextCIKeyTyped
+    private void TextCiKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TextCiKeyTyped
         // Que no se puedan escribir letras
         char c = evt.getKeyChar();
         
         if (c < '0' || c > '9') evt.consume();
-    }//GEN-LAST:event_TextCIKeyTyped
+    }//GEN-LAST:event_TextCiKeyTyped
 
     private void TextProfesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TextProfesionActionPerformed
         // TODO add your handling code here:
@@ -579,7 +601,7 @@ public class I_Registrar_Datos_Paciente extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField TextApellido;
-    private javax.swing.JTextField TextCI;
+    private javax.swing.JTextField TextCi;
     private javax.swing.JTextField TextDireccion;
     private javax.swing.JTextField TextEstadoCivil;
     private javax.swing.JTextField TextFechaNacimiento;

@@ -1,13 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package Vista.Cita.Modificar_Cita;
 
-/**
- *
- * @author david
- */
 public class I_Error_Fecha extends javax.swing.JFrame {
 
     static I_Error_Fecha GetInstance() {

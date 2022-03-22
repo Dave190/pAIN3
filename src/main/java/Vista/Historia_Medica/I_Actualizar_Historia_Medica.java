@@ -1,5 +1,7 @@
 package Vista.Historia_Medica;
 
+import Vista.I_Exito;
+
 public class I_Actualizar_Historia_Medica extends javax.swing.JFrame {
 
     private static I_Actualizar_Historia_Medica Instance;

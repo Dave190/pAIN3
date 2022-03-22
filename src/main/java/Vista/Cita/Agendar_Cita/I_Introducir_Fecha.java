@@ -1,20 +1,20 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package Vista.Cita.Agendar_Cita;
 
+import static Controlador.Ctrl_Cita.CrearCita;
+import static Controlador.Ctrl_Cita.buscarFecha;
+import static Controlador.Ctrl_Cita.buscarPaciente;
+import static Controlador.Ctrl_Cita.generarIDCita;
+import static Controlador.Ctrl_HistoriaMedica.buscarMedico;
+import static Controlador.Ctrl_Sucursal.buscarSucursal;
+import static Controlador.Ctrl_Sucursal.getListaSucursales;
+import static Controlador.Ctrl_Sucursal.saveListaSucursales;
+import Modelo.Cita;
 import Modelo.Sucursal;
-import Vista.Cita.Modificar_Cita.I_Exito;
-import com.google.gson.Gson;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
+import Vista.I_Error_Generico;
+import Vista.I_Exito;
+import java.util.ArrayList;
+import java.util.List;
 
-/**
- *
- * @author Maximiliano
- */
 public class I_Introducir_Fecha extends javax.swing.JFrame {
 
     private static I_Introducir_Fecha Instance;
@@ -70,8 +70,8 @@ public class I_Introducir_Fecha extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
+        TextFecha = new javax.swing.JTextField();
+        TextCi = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
@@ -108,27 +108,32 @@ public class I_Introducir_Fecha extends javax.swing.JFrame {
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Fecha de la Cita (dd-mm-aaaa):");
 
-        jTextField1.setBackground(new java.awt.Color(153, 153, 153));
-        jTextField1.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        jTextField1.setForeground(new java.awt.Color(255, 255, 255));
-
-        jTextField2.setBackground(new java.awt.Color(153, 153, 153));
-        jTextField2.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        jTextField2.setForeground(new java.awt.Color(255, 255, 255));
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+        TextFecha.setBackground(new java.awt.Color(153, 153, 153));
+        TextFecha.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        TextFecha.setForeground(new java.awt.Color(255, 255, 255));
+        TextFecha.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
+                TextFechaActionPerformed(evt);
             }
         });
-        jTextField2.addKeyListener(new java.awt.event.KeyAdapter() {
+
+        TextCi.setBackground(new java.awt.Color(153, 153, 153));
+        TextCi.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        TextCi.setForeground(new java.awt.Color(255, 255, 255));
+        TextCi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TextCiActionPerformed(evt);
+            }
+        });
+        TextCi.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                jTextField2KeyTyped(evt);
+                TextCiKeyTyped(evt);
             }
         });
 
         jLabel3.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("Nombre del Médico:");
+        jLabel3.setText("CI del Médico:");
 
         jLabel4.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
@@ -170,8 +175,8 @@ public class I_Introducir_Fecha extends javax.swing.JFrame {
                     .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jTextField1)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 680, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(TextFecha)
+                    .addComponent(TextCi, javax.swing.GroupLayout.PREFERRED_SIZE, 680, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(34, 34, 34))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -190,11 +195,11 @@ public class I_Introducir_Fecha extends javax.swing.JFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(50, 50, 50)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(TextFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(TextCi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel4)
@@ -220,21 +225,38 @@ public class I_Introducir_Fecha extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-         // Boton a Agendar_CIta
-        I_Introducir_Fecha instance = I_Introducir_Fecha.GetInstance();
-        String medico = jTextField2.getText();
-        String fecha = jTextField1.getText();
-        String sucursal = instance.sucursal;
-        String paciente = instance.paciente;
-        if (true) // validar existe medico en la sucursal y fecha valida
-        {
-            I_Exito Interfaz = I_Exito.GetInstance();
-            Interfaz.setVisible(true);
-            this.setVisible(false);
-        }else
-        {
-            I_Error Interfaz = I_Error.GetInstance();
-            Interfaz.setVisible(true);
+
+        String ci = TextCi.getText();
+        String fecha = TextFecha.getText();
+        String id = generarIDCita();
+
+                
+        List<Sucursal> sucursales = getListaSucursales();
+
+        int index = buscarSucursal(sucursal, sucursales);
+        int indexP = buscarPaciente(paciente, sucursales.get(index).getPacientes());
+        int indexM = buscarMedico(ci, sucursales.get(index).getMedicos());
+        
+        if (sucursales.get(index).getPacientes().get(indexP).getCitas() != null) {
+            if (indexM != -1 && buscarFecha(fecha, sucursales.get(index).getPacientes().get(indexP).getCitas()) == -1) {
+                CrearCita(id,sucursales.get(index).getMedicos().get(indexM).getId(), fecha, sucursales.get(index).getMedicos().get(indexM).getNombre(), sucursales.get(index).getPacientes().get(indexP).getCitas());
+                saveListaSucursales(sucursales);
+                I_Exito a = I_Exito.GetInstance();
+                a.setVisible(true);
+                this.setVisible(false);
+
+            } else {
+                I_Error_Generico Interfaz = I_Error_Generico.GetInstance();
+                Interfaz.setVisible(true);
+                this.setVisible(false);
+            }
+        } else {
+            List<Cita> citas = new ArrayList<>();
+            CrearCita(id,sucursales.get(index).getMedicos().get(indexM).getId(), fecha, sucursales.get(index).getMedicos().get(indexM).getNombre(), citas);
+            sucursales.get(index).getPacientes().get(indexP).setCitas(citas);
+            saveListaSucursales(sucursales);
+            I_Exito a = I_Exito.GetInstance();
+            a.setVisible(true);
             this.setVisible(false);
         }
         
@@ -247,7 +269,7 @@ public class I_Introducir_Fecha extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void jTextField2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField2KeyTyped
+    private void TextCiKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TextCiKeyTyped
         // Que no se puedan escribir numeros
         char c = evt.getKeyChar();
         
@@ -255,11 +277,15 @@ public class I_Introducir_Fecha extends javax.swing.JFrame {
         } else {
             evt.consume();
         }
-    }//GEN-LAST:event_jTextField2KeyTyped
+    }//GEN-LAST:event_TextCiKeyTyped
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+    private void TextCiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TextCiActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
+    }//GEN-LAST:event_TextCiActionPerformed
+
+    private void TextFechaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TextFechaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TextFechaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -297,6 +323,8 @@ public class I_Introducir_Fecha extends javax.swing.JFrame {
 //    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField TextCi;
+    private javax.swing.JTextField TextFecha;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
@@ -305,7 +333,5 @@ public class I_Introducir_Fecha extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     // End of variables declaration//GEN-END:variables
 }

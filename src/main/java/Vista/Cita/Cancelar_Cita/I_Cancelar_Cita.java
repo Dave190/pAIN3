@@ -1,17 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package Vista.Cita.Cancelar_Cita;
 
-
-import Vista.Cita.Agendar_Cita.I_Error;
 import Vista.Cita.I_Cita;
 
-/**
- *
- * @author Maximiliano
- */
 public class I_Cancelar_Cita extends javax.swing.JFrame {
 
     private static I_Cancelar_Cita Instance;

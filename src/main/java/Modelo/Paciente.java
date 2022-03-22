@@ -7,8 +7,7 @@ public class Paciente extends Persona {
     public List<Cita> citas;
     public List<HistoriaMedica> historia;
 
-    public Paciente(List<Cita> citas,
-            List<HistoriaMedica> historia,
+    public Paciente(
             String nombre,
             String apellido,
             String CI,
@@ -34,8 +33,6 @@ public class Paciente extends Persona {
             profeson,
             ocupacion,
             telefonoPeronsaRe);
-        this.citas = citas;
-        this.historia = historia;
     }
 
     public List<Cita> getCitas() {

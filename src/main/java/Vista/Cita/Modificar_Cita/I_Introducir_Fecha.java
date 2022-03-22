@@ -1,12 +1,12 @@
 package Vista.Cita.Modificar_Cita;
 
-import static Controlador.Ctrl_Cita.ModificarCita;
 import static Controlador.Ctrl_Cita.buscarFecha;
 import static Controlador.Ctrl_Cita.buscarPaciente;
 import static Controlador.Ctrl_Sucursal.buscarSucursal;
 import static Controlador.Ctrl_Sucursal.getListaSucursales;
 import Modelo.Cita;
 import Modelo.Sucursal;
+import Vista.I_Exito;
 import java.util.List;
 
 public class I_Introducir_Fecha extends javax.swing.JFrame {

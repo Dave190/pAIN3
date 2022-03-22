@@ -1,5 +1,6 @@
 package Vista.Sucursal;
 
+import Vista.I_Error_Generico;
 import static Controlador.Ctrl_Sucursal.buscarSucursal;
 import static Controlador.Ctrl_Sucursal.getListaSucursales;
 import Modelo.Sucursal;

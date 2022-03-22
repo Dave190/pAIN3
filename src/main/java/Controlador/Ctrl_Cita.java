@@ -1,11 +1,7 @@
 package Controlador;
 
-import static Controlador.Ctrl_Sucursal.buscarSucursal;
-import static Controlador.Ctrl_Sucursal.getListaSucursales;
-import static Controlador.Ctrl_Sucursal.saveListaSucursales;
 import Modelo.Cita;
 import Modelo.Paciente;
-import Modelo.Sucursal;
 import java.util.List;
 import javax.swing.JOptionPane;
 
@@ -56,7 +52,7 @@ public class Ctrl_Cita {
     }
 
     // Registrar un nuevo paciente y guardarlo al Json
-    public static boolean RegistrarPaciente(String nombre,
+    public static void RegistrarPaciente(String nombre,
             String apellido,
             String CI,
             String sexo,
@@ -68,37 +64,23 @@ public class Ctrl_Cita {
             String profeson,
             String ocupacion,
             String telefonoPeronsaRe,
-            String sucursal) {
+            List<Paciente> pacientes) {
 
-        List<Sucursal> sucursales = getListaSucursales(); // Leer el Json para obtener la lista de sucursales
-        int index = buscarSucursal(sucursal, sucursales);
+        Paciente NuevoPaciente = new Paciente(
+                nombre,
+                apellido,
+                CI,
+                sexo,
+                fechaNacimiento,
+                lugarNacimiento,
+                estadoCivil,
+                direccion,
+                telefono,
+                profeson,
+                ocupacion,
+                telefonoPeronsaRe);
 
-        if (index != -1) {
-
-            if (buscarPaciente(CI, sucursales.get(index).getPacientes()) == -1) // Validar que el paciente no exista en la lista de pacientes
-            {
-                Paciente NuevoPaciente = new Paciente(null,
-                        null,
-                        nombre,
-                        apellido,
-                        CI,
-                        sexo,
-                        fechaNacimiento,
-                        lugarNacimiento,
-                        estadoCivil,
-                        direccion,
-                        telefono,
-                        profeson,
-                        ocupacion,
-                        telefonoPeronsaRe);
-
-                sucursales.get(index).getPacientes().add(NuevoPaciente);
-                saveListaSucursales(sucursales); // Escribir la lista de pacientes al Json
-                return true;
-            }
-        }
-
-        return false;
+        pacientes.add(NuevoPaciente);
     }
 
     // Crea la Cita

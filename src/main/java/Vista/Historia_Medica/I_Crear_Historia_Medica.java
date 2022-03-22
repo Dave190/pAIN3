@@ -1,15 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package Vista.Historia_Medica;
 
-import static Controlador.Ctrl_HistoriaMedica.CrearHistoria;
+import Vista.I_Exito;
 
-/**
- *
- * @author david
- */
 public class I_Crear_Historia_Medica extends javax.swing.JFrame {
 
     private static I_Crear_Historia_Medica Instance;
