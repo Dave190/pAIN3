@@ -462,7 +462,7 @@ public class Registrar_Nuevo_Medico extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
-        String nombre = TextNombre.getText();
+         String nombre = TextNombre.getText();
         String apellido = TextApellido.getText();
         String ci = TextCi.getText();
         String sexo = TextSexo.getText();
@@ -472,32 +472,47 @@ public class Registrar_Nuevo_Medico extends javax.swing.JFrame {
         String direccion = TextDireccionHabitacion.getText();
         String telefono = TextTelefono.getText();
         String especialidad = TextEspecializacion.getText();
-        String id = generarIDMedico();
-                
+        
+        
+        Boolean valido =true;
+        if (nombre.isEmpty() || apellido.isEmpty() || ci.isEmpty() || fechaN.isEmpty() || lugarN.isEmpty() || estadocivil.isEmpty() || direccion.isEmpty() || telefono.isEmpty() || especialidad.isEmpty())
+            valido=false;
+        
+        
         List<Sucursal> sucursales = getListaSucursales();
 
         int index = buscarSucursal(Sucursal, sucursales);
 
-        if (sucursales.get(index).getMedicos() != null) {
-            if (buscarMedico(ci, sucursales.get(index).getMedicos()) == -1) {
-                RegistrarMedico(id, especialidad, nombre, apellido, ci, sexo, fechaN, lugarN, estadocivil, direccion, telefono, sucursales.get(index).getMedicos());
+        if (valido)
+        {
+            if (sucursales.get(index).getMedicos() != null) {
+                if (buscarMedico(ci, sucursales.get(index).getMedicos()) == -1) {
+                    String id = generarIDMedico();
+                    RegistrarMedico(id, especialidad, nombre, apellido, ci, sexo, fechaN, lugarN, estadocivil, direccion, telefono, sucursales.get(index).getMedicos());
+                    saveListaSucursales(sucursales);
+                    I_Exito a = I_Exito.GetInstance();
+                    a.setVisible(true);
+                    this.setVisible(false);
+
+                } else {
+                    I_Error_Generico Interfaz = I_Error_Generico.GetInstance();
+                    Interfaz.setVisible(true);
+                    this.setVisible(false);
+                }
+            } else {
+                String id = generarIDMedico();
+                List<Medico> medicos = new ArrayList<>();
+                RegistrarMedico(id, especialidad, nombre, apellido, ci, sexo, fechaN, lugarN, estadocivil, direccion, telefono, medicos);
+                sucursales.get(index).setMedicos(medicos);
                 saveListaSucursales(sucursales);
                 I_Exito a = I_Exito.GetInstance();
                 a.setVisible(true);
                 this.setVisible(false);
-
-            } else {
-                I_Error_Generico Interfaz = I_Error_Generico.GetInstance();
-                Interfaz.setVisible(true);
-                this.setVisible(false);
             }
-        } else {
-            List<Medico> medicos = new ArrayList<>();
-            RegistrarMedico(id, especialidad, nombre, apellido, ci, sexo, fechaN, lugarN, estadocivil, direccion, telefono, medicos);
-            sucursales.get(index).setMedicos(medicos);
-            saveListaSucursales(sucursales);
-            I_Exito a = I_Exito.GetInstance();
-            a.setVisible(true);
+        }else
+        {
+            I_Error_Generico Interfaz = I_Error_Generico.GetInstance();
+            Interfaz.setVisible(true);
             this.setVisible(false);
         }
 

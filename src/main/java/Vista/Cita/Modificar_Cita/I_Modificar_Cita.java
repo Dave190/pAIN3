@@ -164,6 +164,8 @@ public class I_Modificar_Cita extends javax.swing.JFrame {
         {
             I_Introducir_Fecha a = I_Introducir_Fecha.GetInstance();
             a.setSucursal(Sucursal);
+            a.setID(id);
+            a.setCI(ci);
             a.setVisible(true);
             this.setVisible(false);
         }else

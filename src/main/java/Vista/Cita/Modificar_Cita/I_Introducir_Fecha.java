@@ -16,6 +16,16 @@ public class I_Introducir_Fecha extends javax.swing.JFrame {
         this.Sucursal = Sucursal;
     }
     private String Sucursal;
+    private String CI;
+
+    public String getID() {
+        return ID;
+    }
+
+    public void setID(String ID) {
+        this.ID = ID;
+    }
+    private String ID;
 
     public String getCI() {
         return CI;
@@ -24,7 +34,7 @@ public class I_Introducir_Fecha extends javax.swing.JFrame {
     public void setCI(String CI) {
         this.CI = CI;
     }
-    private String CI;
+    
 
     public String getSucursal() {
         return Sucursal;

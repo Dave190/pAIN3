@@ -208,12 +208,18 @@ public class I_Añadir_Sucursal extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
-        String nombre = TextNombre.getText();
+       String nombre = TextNombre.getText();
         String direccion = TextDireccion.getText();
+        Boolean valido=true;
+        if (nombre.isEmpty() || direccion.isEmpty())
+            valido=false;
 
         List<Sucursal> sucursales = getListaSucursales();
-        if (sucursales != null) {
-            if (buscarSucursal(nombre, sucursales) == -1) {
+        
+        if(valido)
+        {
+            if (sucursales != null) {
+            if (buscarSucursal(nombre, sucursales) == -1 && valido) {
                 AñadirSucursal(nombre, direccion, sucursales);
                 saveListaSucursales(sucursales);
                 I_Exito a = I_Exito.GetInstance();
@@ -230,6 +236,12 @@ public class I_Añadir_Sucursal extends javax.swing.JFrame {
             saveListaSucursales(sucursales2);
             I_Exito a = I_Exito.GetInstance();
             a.setVisible(true);
+            this.setVisible(false);
+        }
+        }else
+        {
+            I_Error_Generico Interfaz = I_Error_Generico.GetInstance();
+            Interfaz.setVisible(true);
             this.setVisible(false);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
