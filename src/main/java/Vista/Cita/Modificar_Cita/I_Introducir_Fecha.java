@@ -1,18 +1,22 @@
 package Vista.Cita.Modificar_Cita;
 
+import static Controlador.Ctrl_Cita.ModificarCita;
+import static Controlador.Ctrl_Cita.buscarCita;
 import static Controlador.Ctrl_Cita.buscarFecha;
 import static Controlador.Ctrl_Cita.buscarPaciente;
 import static Controlador.Ctrl_Sucursal.buscarSucursal;
 import static Controlador.Ctrl_Sucursal.getListaSucursales;
-import Modelo.Cita;
+import static Controlador.Ctrl_Sucursal.saveListaSucursales;
 import Modelo.Sucursal;
+import Vista.I_Error_Generico;
 import Vista.I_Exito;
 import java.util.List;
 
 public class I_Introducir_Fecha extends javax.swing.JFrame {
+
     private static I_Introducir_Fecha Instance;
-    
-     public void setSucursal(String Sucursal) {
+
+    public void setSucursal(String Sucursal) {
         this.Sucursal = Sucursal;
     }
     private String Sucursal;
@@ -34,7 +38,6 @@ public class I_Introducir_Fecha extends javax.swing.JFrame {
     public void setCI(String CI) {
         this.CI = CI;
     }
-    
 
     public String getSucursal() {
         return Sucursal;
@@ -45,14 +48,14 @@ public class I_Introducir_Fecha extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
     }
 
-    public static I_Introducir_Fecha GetInstance()
-    {
-        if (Instance == null)
+    public static I_Introducir_Fecha GetInstance() {
+        if (Instance == null) {
             Instance = new I_Introducir_Fecha();
-        
+        }
+
         return Instance;
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -64,7 +67,7 @@ public class I_Introducir_Fecha extends javax.swing.JFrame {
 
         jLabel12 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        jTextField6 = new javax.swing.JTextField();
+        TextFecha = new javax.swing.JTextField();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
 
@@ -77,9 +80,14 @@ public class I_Introducir_Fecha extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         jLabel1.setText("Fecha de la Cita: ");
 
-        jTextField6.setBackground(new java.awt.Color(153, 153, 153));
-        jTextField6.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        jTextField6.setForeground(new java.awt.Color(255, 255, 255));
+        TextFecha.setBackground(new java.awt.Color(153, 153, 153));
+        TextFecha.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        TextFecha.setForeground(new java.awt.Color(255, 255, 255));
+        TextFecha.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TextFechaActionPerformed(evt);
+            }
+        });
 
         jButton3.setBackground(new java.awt.Color(51, 51, 51));
         jButton3.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
@@ -114,7 +122,7 @@ public class I_Introducir_Fecha extends javax.swing.JFrame {
                         .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 355, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(TextFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 355, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(20, 20, 20)
                         .addComponent(jLabel12)))
@@ -128,7 +136,7 @@ public class I_Introducir_Fecha extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(TextFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 140, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -142,32 +150,36 @@ public class I_Introducir_Fecha extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // Boton para atras a I_Modificar_Cita
         I_Modificar_Cita a = I_Modificar_Cita.GetInstance();
-        a.setVisible (true);
+        a.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // boton a I_Exito
-        String fecha = jTextField6.getText();
+
+        String fecha = TextFecha.getText();
+
         List<Sucursal> sucursales = getListaSucursales();
         int index = buscarSucursal(Sucursal, sucursales);
-        int indexpac = buscarPaciente(CI, sucursales.get(index).getPacientes());
-        List<Cita> citas = sucursales.get(index).getPacientes().get(indexpac).getCitas();
-        if (buscarFecha(fecha, citas) != -1)
-        {
+        int indexP = buscarPaciente(CI, sucursales.get(index).getPacientes());
+        int indexC = buscarCita(ID, sucursales.get(index).getPacientes().get(indexP).getCitas());
+
+        if (buscarFecha(fecha, sucursales.get(index).getPacientes().get(indexP).getCitas()) == -1) {
+            ModificarCita(indexC, fecha, sucursales.get(index).getPacientes().get(indexP).getCitas());
+            saveListaSucursales(sucursales);
             I_Exito a = I_Exito.GetInstance();
             a.setVisible(true);
             this.setVisible(false);
-        }else
-        {
-            I_Error_Fecha Interfaz = I_Error_Fecha.GetInstance();
+        } else {
+            I_Error_Generico Interfaz = I_Error_Generico.GetInstance();
             Interfaz.setVisible(true);
             this.setVisible(false);
         }
 
-       
-        
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void TextFechaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TextFechaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TextFechaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -205,10 +217,10 @@ public class I_Introducir_Fecha extends javax.swing.JFrame {
 //    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField TextFecha;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JTextField jTextField6;
     // End of variables declaration//GEN-END:variables
 }

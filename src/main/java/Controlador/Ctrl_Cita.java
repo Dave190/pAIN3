@@ -92,9 +92,8 @@ public class Ctrl_Cita {
     }
 
     // Modifica la Cita
-    public static void ModificarCita(String ID, String fecha, List<Cita> citas) {
-        int index = buscarCita(ID, citas);
-        citas.get(index).setFecha(fecha);
+    public static void ModificarCita(int pos, String fecha, List<Cita> citas) {
+        citas.get(pos).setFecha(fecha);
     }
 
     //Cancela la Cita
